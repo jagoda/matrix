@@ -4,19 +4,30 @@ Go. Testing command line clients in this way is typically done by including the
 test cases in the main package so that the main() function can be called by the
 test case.
 
-	var (
-		process *Process
+	package main
+
+	import (
+		. "github.com/onsi/ginkgo"
+		. "github.com/onsi/gomega"
+
+		"github.com/jagoda/matrix"
 	)
 
-	BeforeEach(func() {
-		process = CaptureProcess()
-		defer process.Restore()
+	var _ = Describe("Process", func() {
+		var (
+			process *matrix.Process
+		)
 
-		main()
-	})
+		BeforeEach(func() {
+			process = matrix.CaptureProcess()
+			defer process.Restore()
 
-	It("captures the output", func() {
-		Expect(process.Output()).To(Equal("hello\n"))
+			main()
+		})
+
+		It("captures the output", func() {
+			Expect(process.Output()).To(Equal("hello\n"))
+		})
 	})
 */
 package matrix
